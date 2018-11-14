@@ -6,6 +6,13 @@ env:
 test:
 	cat `pwd`/out.json
 
+download:
+	mkdir data || echo "directory already exists"
+	wget https://data.monarchinitiative.org/ttl/clinvar.ttl -O data/clinvar.ttl
+	wget https://data.monarchinitiative.org/ttl/orphanet.ttl -O data/orphanet.ttl
+	wget https://data.monarchinitiative.org/ttl/omim.ttl -O data/omim.ttl
+	wget https://archive.monarchinitiative.org/latest/ttl/hpoa.ttl -O data/hpoa.ttl
+
 docker:
 	docker run \
 		-d \
@@ -28,6 +35,36 @@ run:
 	--node-property source orphanet \
 	--edge-property source orphanet \
 	data/orphanet.ttl
-	#data/clinvar.ttl \
-	#data/hpoa.ttl \
-	#data/omim.ttl
+
+	kgx neo4j-upload \
+	--use-unwind \
+	--scheme bolt \
+	--port 8087 \
+	-u neo4j \
+	-p password \
+	--host localhost \
+	--node-property source clinvar \
+	--edge-property source clinvar \
+	data/clinvar.ttl
+
+	kgx neo4j-upload \
+	--use-unwind \
+	--scheme bolt \
+	--port 8087 \
+	-u neo4j \
+	-p password \
+	--host localhost \
+	--node-property source hpoa \
+	--edge-property source hpoa \
+	data/hpoa.ttl
+
+	kgx neo4j-upload \
+	--use-unwind \
+	--scheme bolt \
+	--port 8087 \
+	-u neo4j \
+	-p password \
+	--host localhost \
+	--node-property source orphanet \
+	--edge-property source orphanet \
+	data/omim.ttl
