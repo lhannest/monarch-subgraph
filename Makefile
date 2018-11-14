@@ -65,6 +65,6 @@ run:
 	-u neo4j \
 	-p password \
 	--host localhost \
-	--node-property source orphanet \
-	--edge-property source orphanet \
+	--node-property source omim \
+	--edge-property source omim \
 	data/omim.ttl
