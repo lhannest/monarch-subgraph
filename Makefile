@@ -21,7 +21,7 @@ docker:
 		--publish=8086:7474 \
 		--publish=8087:7687 \
 		--volume=`pwd`/neo4j/data:/data \
-		--volume=`pwd`/neo3j/logs:/logs \
+		--volume=`pwd`/neo4j/logs:/logs \
 		neo4j:3.0
 
 run:
@@ -32,8 +32,8 @@ run:
 	-u neo4j \
 	-p password \
 	--host localhost \
-	--node-property source orphanet \
-	--edge-property source orphanet \
+	--node-property source_orphanet True \
+	--edge-property source_orphanet True \
 	data/orphanet.ttl
 
 	kgx neo4j-upload \
