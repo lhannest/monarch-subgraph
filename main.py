@@ -3,7 +3,7 @@ import kgx
 t = kgx.RdfOwlTransformer()
 t.parse('data/mondo.owl')
 
-t = kgx.ObanRdfTransformer(t)
+t = kgx.ObanRdfTransformer(t.graph)
 t.parse('data/orphanet.ttl')
 
 n = kgx.NeoTransformer(
