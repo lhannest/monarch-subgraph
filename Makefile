@@ -17,9 +17,9 @@ merge:
 	python merge.py \
 		-i data/orphanet.ttl \
 		-i data/mondo.owl \
-		-i hpoa.ttl \
-		-i hp.owl \
-		-o orphanet_hpoa.ttl
+		-i data/hpoa.ttl \
+		-i data/hp.owl \
+		-o data/orphanet_hpoa.ttl
 
 docker:
 	docker run \
