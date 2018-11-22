@@ -13,6 +13,14 @@ download:
 	wget https://data.monarchinitiative.org/ttl/omim.ttl -O data/omim.ttl
 	wget https://archive.monarchinitiative.org/latest/ttl/hpoa.ttl -O data/hpoa.ttl
 
+merge:
+	python merge.py \
+		-i data/orphanet.ttl \
+		-i data/mondo.owl \
+		-i hpoa.ttl \
+		-i hp.owl \
+		-o orphanet_hpoa.ttl
+
 docker:
 	docker run \
 		-d \
