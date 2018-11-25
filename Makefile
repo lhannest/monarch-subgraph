@@ -21,6 +21,9 @@ merge:
 		-i data/hp.owl \
 		-o data/orphanet_hpoa.ttl
 
+run:
+	kgx neo4j-upload --use-unwind --scheme bolt --port 8087 -u neo4j -p password --host localhost --node-property source_orphanet True --edge-property orphanet_mondo yes data/out.ttl
+
 docker:
 	docker run \
 		-d \
@@ -32,47 +35,47 @@ docker:
 		--volume=`pwd`/neo4j/logs:/logs \
 		neo4j:3.0
 
-run:
-	kgx neo4j-upload \
-	--use-unwind \
-	--scheme bolt \
-	--port 8087 \
-	-u neo4j \
-	-p password \
-	--host localhost \
-	--node-property source_orphanet True \
-	--edge-property source_orphanet True \
-	data/orphanet.ttl
-
-	kgx neo4j-upload \
-	--use-unwind \
-	--scheme bolt \
-	--port 8087 \
-	-u neo4j \
-	-p password \
-	--host localhost \
-	--node-property source clinvar \
-	--edge-property source clinvar \
-	data/clinvar.ttl
-
-	kgx neo4j-upload \
-	--use-unwind \
-	--scheme bolt \
-	--port 8087 \
-	-u neo4j \
-	-p password \
-	--host localhost \
-	--node-property source hpoa \
-	--edge-property source hpoa \
-	data/hpoa.ttl
-
-	kgx neo4j-upload \
-	--use-unwind \
-	--scheme bolt \
-	--port 8087 \
-	-u neo4j \
-	-p password \
-	--host localhost \
-	--node-property source omim \
-	--edge-property source omim \
-	data/omim.ttl
+# run:
+# 	kgx neo4j-upload \
+# 	--use-unwind \
+# 	--scheme bolt \
+# 	--port 8087 \
+# 	-u neo4j \
+# 	-p password \
+# 	--host localhost \
+# 	--node-property source_orphanet True \
+# 	--edge-property source_orphanet True \
+# 	data/orphanet.ttl
+#
+# 	kgx neo4j-upload \
+# 	--use-unwind \
+# 	--scheme bolt \
+# 	--port 8087 \
+# 	-u neo4j \
+# 	-p password \
+# 	--host localhost \
+# 	--node-property source clinvar \
+# 	--edge-property source clinvar \
+# 	data/clinvar.ttl
+#
+# 	kgx neo4j-upload \
+# 	--use-unwind \
+# 	--scheme bolt \
+# 	--port 8087 \
+# 	-u neo4j \
+# 	-p password \
+# 	--host localhost \
+# 	--node-property source hpoa \
+# 	--edge-property source hpoa \
+# 	data/hpoa.ttl
+#
+# 	kgx neo4j-upload \
+# 	--use-unwind \
+# 	--scheme bolt \
+# 	--port 8087 \
+# 	-u neo4j \
+# 	-p password \
+# 	--host localhost \
+# 	--node-property source omim \
+# 	--edge-property source omim \
+# 	data/omim.ttl
