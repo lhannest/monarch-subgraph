@@ -9,7 +9,7 @@ for n in t.graph.nodes():
     c = t.graph.node[n].get('category', None)
     categories.append(c)
 
-d = Counter(category)
+d = Counter(categories)
 
 pprint(d)
 
