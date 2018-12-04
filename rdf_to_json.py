@@ -1,5 +1,6 @@
 from kgx import ObanRdfTransformer, JsonTransformer
 from collections import Counter
+from pprint import pprint
 
 t = ObanRdfTransformer()
 t.add_ontology('data/mondo.owl')
@@ -42,5 +43,31 @@ for s, o, attr in t.graph.edges(data=True):
 
 t.save('merged.json')
 
-pprint(Counter([t.graph.node[n]['category'] for n in t.graph.nodes()]))
-pprint(Counter([(t.graph.node[s]['category'], attr['predicate'], t.graph.node[o]['category']) for s, o, attr in t.graph.edges(data=True)]))
+category_list = []
+
+for n in t.graph.nodes():
+    c = t.graph.node[n].get('category', ['named thing'])
+
+    if isinstance(c, (list, tuple, set)):
+        category_list.extend(c)
+    else:
+        category_list.append(c)
+
+counter = Counter(category_list)
+
+pprint(counter)
+
+kmap = []
+for s, o, attr in t.graph.edges(data=True):
+    subject_categories = t.graph.node[s].get('category', ['named thing'])
+    object_categories = t.graph.node[o].get('category', ['named thing'])
+    predicates = attr.get('predicate', ['related to'])
+
+    for subject_category in subject_categories:
+        for object_category in object_categories:
+            for predicate in predicates:
+                kmap.append((subject_category, predicate, object_category))
+
+counter = Counter(kmap)
+
+pprint(counter)
