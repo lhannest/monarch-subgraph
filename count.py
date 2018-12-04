@@ -1,6 +1,7 @@
 from collections import Counter, Hashable
 from kgx import JsonTransformer
 from pprint import pprint
+import sys
 
 path = sys.argv[1]
 
