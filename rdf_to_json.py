@@ -6,7 +6,7 @@ o.add_ontology('data/mondo.owl')
 o.add_ontology('data/hp.owl')
 o.add_ontology('data/go.owl')
 o.add_ontology('data/so.owl')
-o.add_ontology('data/ordo_orphanet.owl')
+o.add_ontology('data/ordo.owl')
 
 t = ObanRdfTransformer()
 t.ontologies = o.ontologies
