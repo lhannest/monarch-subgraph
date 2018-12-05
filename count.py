@@ -36,8 +36,8 @@ for n in t.graph.nodes():
 print('Examples of uncategorized nodes:')
 pprint(list(uncategorized.values()))
 
+print('Categories:')
 counter = Counter(category_list)
-
 pprint(counter)
 
 kmap = []
@@ -60,6 +60,6 @@ for s, o, attr in t.graph.edges(data=True):
             for predicate in predicates:
                 kmap.append((subject_category, predicate, object_category))
 
+print('Knowledge Map:')
 counter = Counter(kmap)
-
 pprint(counter)
