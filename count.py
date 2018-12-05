@@ -42,9 +42,18 @@ pprint(counter)
 
 kmap = []
 for s, o, attr in t.graph.edges(data=True):
-    subject_categories = t.graph.node[s].get('category', ['named thing'])
-    object_categories = t.graph.node[o].get('category', ['named thing'])
-    predicates = attr.get('predicate', ['related to'])
+    subject_categories = t.graph.node[s].get('category', [None])
+    object_categories = t.graph.node[o].get('category', [None])
+    predicates = attr.get('predicate', [None])
+
+    if not isinstance(subject_categories, (list, tuple, set)):
+        subject_categories = [subject_categories]
+
+    if not isinstance(object_categories, (list, tuple, set)):
+        object_categories = [object_categories]
+
+    if not isinstance(predicates, (list, tuple, set)):
+        predicates = [predicates]
 
     for subject_category in subject_categories:
         for object_category in object_categories:
