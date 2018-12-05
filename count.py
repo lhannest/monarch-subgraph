@@ -3,20 +3,38 @@ from kgx import JsonTransformer
 from pprint import pprint
 import sys
 
+if len(sys.argv) < 1:
+    quit('Required argument: path to json knowledge graph')
+
 path = sys.argv[1]
 
 t = JsonTransformer()
 t.parse(path)
 
 category_list = []
-
+uncategorized = {}
 for n in t.graph.nodes():
-    c = t.graph.node[n].get('category', ['named thing'])
+    c = t.graph.node[n].get('category')
+
+    if c is None:
+        iri = t.graph.node[n].get('iri')
+        k = iri.split('/')
+        if '_' in k[-1]:
+            prefix, _ = k.split('_', 1)
+            k = tuple(k[:-1] + [prefix])
+        else:
+            k = tuple(k[:-1])
+
+        if k not in uncategorized:
+            uncategorized[k] = iri
 
     if isinstance(c, (list, tuple, set)):
         category_list.extend(c)
     else:
         category_list.append(c)
+
+print('Examples of uncategorized nodes:')
+pprint(list(uncategorized.values()))
 
 counter = Counter(category_list)
 
