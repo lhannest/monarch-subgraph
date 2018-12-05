@@ -20,7 +20,7 @@ for n in t.graph.nodes():
         iri = t.graph.node[n].get('iri')
         k = iri.split('/')
         if '_' in k[-1]:
-            prefix, _ = k.split('_', 1)
+            prefix, _ = k[-1].split('_', 1)
             k = tuple(k[:-1] + [prefix])
         else:
             k = tuple(k[:-1])
