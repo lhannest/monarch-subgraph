@@ -38,7 +38,7 @@ for n in t.graph.nodes():
         category_list.append(c)
 
 print('Examples of uncategorized nodes:')
-for key, value in uncategorized_example:
+for key, value in uncategorized_example.items():
     print('/'.join(key), '\t', value, '\t', uncategorized_frequency[key])
 
 print('Categories:')
