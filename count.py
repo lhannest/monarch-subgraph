@@ -4,12 +4,12 @@ from pprint import pprint
 from terminaltables import AsciiTable
 import sys, numpy
 
-if len(sys.argv) < 2:
+if len(sys.argv) < 3:
     min_frequency = 100
 else:
-    min_frequency = sys.argv[2]
+    min_frequency = int(sys.argv[2])
 
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
     quit('Required argument: path to json knowledge graph')
 else:
     path = sys.argv[1]
