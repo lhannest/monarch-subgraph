@@ -4,10 +4,15 @@ from pprint import pprint
 from terminaltables import AsciiTable
 import sys, numpy
 
+if len(sys.argv) < 2:
+    min_frequency = 100
+else:
+    min_frequency = sys.argv[2]
+
 if len(sys.argv) < 1:
     quit('Required argument: path to json knowledge graph')
-
-path = sys.argv[1]
+else:
+    path = sys.argv[1]
 
 t = JsonTransformer()
 t.parse(path)
@@ -38,12 +43,12 @@ for n in t.graph.nodes():
     else:
         category_list.append(c)
 
-rows = [['Base iri', 'Example iri', 'Frequency']]
+rows = [['Uncategorized Example Base IRI', 'Uncategorized Example Full IRI', 'Frequency']]
 for key, value in uncategorized_example.items():
     rows.append(['/'.join(key), value, uncategorized_frequency[key]])
 print(AsciiTable(rows).table)
 
-rows = [['Category', 'Frequency']] + [[k, v] for k, v in Counter(category_list).items()]
+rows = [['Category', 'Frequency']] + [[k, v] for k, v in Counter(category_list).items() if v >= min_frequency]
 print(AsciiTable(rows).table)
 
 kmap = []
@@ -66,5 +71,5 @@ for s, o, attr in t.graph.edges(data=True):
             for predicate in predicates:
                 kmap.append((subject_category, predicate, object_category))
 
-rows = [['Subject Category', 'Predicate', 'Object Category', 'Frequency']] + [[t[0], t[1], t[2], v] for t, v in Counter(kmap).items()]
+rows = [['Subject Category', 'Predicate', 'Object Category', 'Frequency']] + [[t[0], t[1], t[2], v] for t, v in Counter(kmap).items() if v >= min_frequency]
 print(AsciiTable(rows).table)
