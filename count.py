@@ -12,7 +12,8 @@ t = JsonTransformer()
 t.parse(path)
 
 category_list = []
-uncategorized = {}
+uncategorized_example = {}
+uncategorized_frequency = {}
 for n in t.graph.nodes():
     c = t.graph.node[n].get('category')
 
@@ -25,8 +26,11 @@ for n in t.graph.nodes():
         else:
             k = tuple(k[:-1])
 
-        if k not in uncategorized:
-            uncategorized[k] = iri
+        if k not in uncategorized_example:
+            uncategorized_example[k] = iri
+            uncategorized_frequency[k] = 1
+        else:
+            uncategorized_frequency[k] += 1
 
     if isinstance(c, (list, tuple, set)):
         category_list.extend(c)
@@ -34,7 +38,8 @@ for n in t.graph.nodes():
         category_list.append(c)
 
 print('Examples of uncategorized nodes:')
-pprint(list(uncategorized.values()))
+for key, value in uncategorized_example:
+    print('/'.join(key), '\t', value, '\t', uncategorized_frequency[key])
 
 print('Categories:')
 counter = Counter(category_list)
