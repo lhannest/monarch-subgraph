@@ -47,12 +47,12 @@ headers = [['Uncategorized Example Base IRI', 'Uncategorized Example Full IRI', 
 rows = []
 for key, value in uncategorized_example.items():
     rows.append(['/'.join(key), value, uncategorized_frequency[key]])
-rows.sort(key=lambda row: row[2])
+rows.sort(key=lambda row: row[2], reverse=True)
 print(AsciiTable(headers + rows).table)
 
 headers = [['Category', 'Frequency']]
 data = [[k, v] for k, v in Counter(category_list).items() if v >= min_frequency]
-rows.sort(key=lambda row: row[1])
+data.sort(key=lambda row: row[1], reverse=True)
 print(AsciiTable(headers + data).table)
 
 kmap = []
@@ -77,5 +77,5 @@ for s, o, attr in t.graph.edges(data=True):
 
 headers = [['Subject Category', 'Predicate', 'Object Category', 'Frequency']]
 data = [[t[0], t[1], t[2], v] for t, v in Counter(kmap).items() if v >= min_frequency]
-data.sort(key=lambda row: row[3])
+data.sort(key=lambda row: row[3], reverse=True)
 print(AsciiTable(headers + data).table)
