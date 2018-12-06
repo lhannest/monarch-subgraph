@@ -1,7 +1,8 @@
 from collections import Counter, Hashable
 from kgx import JsonTransformer
 from pprint import pprint
-import sys
+from terminaltables import AsciiTable
+import sys, numpy
 
 if len(sys.argv) < 1:
     quit('Required argument: path to json knowledge graph')
@@ -37,13 +38,13 @@ for n in t.graph.nodes():
     else:
         category_list.append(c)
 
-print('Examples of uncategorized nodes:')
+rows = [['Base iri', 'Example iri', 'Frequency']]
 for key, value in uncategorized_example.items():
-    print('/'.join(key), '\t', value, '\t', uncategorized_frequency[key])
+    rows.append(['/'.join(key), value, uncategorized_frequency[key]])
+print(AsciiTable(rows).table)
 
-print('Categories:')
-counter = Counter(category_list)
-pprint(counter)
+rows = [['Category', 'Frequency']] + [[k, v] for k, v in Counter(category_list).items()]
+print(AsciiTable(rows).table)
 
 kmap = []
 for s, o, attr in t.graph.edges(data=True):
@@ -65,6 +66,5 @@ for s, o, attr in t.graph.edges(data=True):
             for predicate in predicates:
                 kmap.append((subject_category, predicate, object_category))
 
-print('Knowledge Map:')
-counter = Counter(kmap)
-pprint(counter)
+rows = [['Subject Category', 'Predicate', 'Object Category', 'Frequency']] + [[t[0], t[1], t[2], v] for t, v in Counter(kmap).items()]
+print(AsciiTable(rows).table)
