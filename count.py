@@ -46,11 +46,11 @@ for n in t.graph.nodes():
 rows = [['Uncategorized Example Base IRI', 'Uncategorized Example Full IRI', 'Frequency']]
 for key, value in uncategorized_example.items():
     rows.append(['/'.join(key), value, uncategorized_frequency[key]])
-rows.sort(key=lambda row: row[2])
+rows.sort(key=lambda row: float('inf') if isinstance(row[3], str) else row[2])
 print(AsciiTable(rows).table)
 
 rows = [['Category', 'Frequency']] + [[k, v] for k, v in Counter(category_list).items() if v >= min_frequency]
-rows.sort(key=lambda row: row[1])
+rows.sort(key=lambda row: float('inf') if isinstance(row[3], str) else row[1])
 print(AsciiTable(rows).table)
 
 kmap = []
@@ -74,5 +74,5 @@ for s, o, attr in t.graph.edges(data=True):
                 kmap.append((subject_category, predicate, object_category))
 
 rows = [['Subject Category', 'Predicate', 'Object Category', 'Frequency']] + [[t[0], t[1], t[2], v] for t, v in Counter(kmap).items() if v >= min_frequency]
-rows.sort(key=lambda row: row[3])
+rows.sort(key=lambda row: float('inf') if isinstance(row[3], str) else row[3])
 print(AsciiTable(rows).table)
