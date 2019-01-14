@@ -13,7 +13,6 @@ t = JsonTransformer(t)
 t.save('orphanet.json')
 
 t = ObanRdfTransformer()
-t.ontologies = o.ontologies
 t.parse('data/hpoa.ttl')
 t = JsonTransformer(t)
 t.save('hpoa.json')
