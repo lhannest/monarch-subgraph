@@ -1,4 +1,4 @@
-from kgx import ObanRdfTransformer, JsonTransformer
+from kgx import ObanRdfTransformer, PandasTransformer
 import networkx as nx
 import pandas as pd
 
@@ -10,7 +10,7 @@ def load_edges(g:nx.Graph):
     #AFFECTS,19789049,False,affects,UMLS:C1412045,UMLS:C0028754,1,semmeddb,semmeddb:affects,semmeddb_sulab
     #AFFECTS,1409557,False,affects,UMLS:C1412045,UMLS:C0597304,1,semmeddb,semmeddb:affects,semmeddb_sulab
     #AFFECTS,7617239,False,affects,UMLS:C1412045,UMLS:C0599816,1,semmeddb,semmeddb:affects,semmeddb_sulab
-    
+
     df = pd.read_csv('data/edges_neo4j.csv')
 
     def process_row(row):
@@ -48,7 +48,7 @@ def load_nodes(g:nx.Graph):
                 type=row['umls_type:STRING[]'],
                 umls_type=row['umls_type_label:STRING[]'],
                 label=row[':LABEL'],
-                xrefs=xrefs,
+                same_as=xrefs,
                 category=row['category:STRING'],
                 id=row['id:STRING']
         )
@@ -67,8 +67,7 @@ def load_nodes(g:nx.Graph):
 
 if __name__ == '__main__':
     g = nx.Graph()
-    t = JsonTransformer()
+    t = PandasTransformer()
     load_nodes(t.graph)
     load_edges(t.graph)
-    t.save('semmeddb.json')
-
+    t.save('semmeddb.csv')
