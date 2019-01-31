@@ -1,3 +1,10 @@
+"""
+Loads all the turtle files with their required ontologies and transforms them to
+json. Then loads all these json files, along with the semmeddb edges.csv and
+nodes.csv files, into a single NetworkX graph, and performs `clique_merge` on it.
+Finally, saves the resulting NetworkX graph as `clique_merged.csv`
+"""
+
 from kgx import ObanRdfTransformer, JsonTransformer, HgncRdfTransformer
 from kgx import clique_merge
 
@@ -40,7 +47,10 @@ t.parse('clinvar.json')
 t.parse('omim.json')
 t.parse('hpoa.json')
 t.parse('orphanet.json')
-t.save('merged.json')
+
+t = PandasTransformer(t.graph)
+t.parse('edges.csv')
+t.parse('nodes.csv')
 
 t.graph = clique_merge(t.graph)
-t.save('clique_merged.json')
+t.save('clique_merged.csv')
