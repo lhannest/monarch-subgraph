@@ -21,61 +21,32 @@ merge:
 		-i data/hp.owl \
 		-o data/orphanet_hpoa.ttl
 
-run:
-	kgx neo4j-upload --use-unwind --scheme bolt --port 8087 -u neo4j -p password --host localhost --node-property source_orphanet True --edge-property orphanet_mondo yes data/out.ttl
+neo4j-logs:
+	docker logs ncats-monarch-graph-2019-01-25
 
-docker:
+neo4j-ssh:
+	docker exec -it ncats-monarch-graph-2019-01-25 /bin/bash
+
+neo4j-stop:
+	docker stop ncats-monarch-graph-2019-01-25
+
+neo4j-start:
+	mkdir -p neo4j/plugins
+	#wget --no-clobber https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.5.0.1/apoc-3.5.0.1-all.jar --directory-prefix=/work/neo4j/plugins
+	wget --no-clobber https://github.com/neo4j-contrib/neo4j-apoc-procedures/releases/download/3.0.8.6/apoc-3.0.8.6-all.jar --directory-prefix=/work/neo4j/plugins
+	echo `pwd`
 	docker run \
 		-d \
-		--name monarch-neo4j \
-		--env NEO4J_AUTH=neo4j/password \
-		--publish=8086:7474 \
-		--publish=8087:7687 \
-		--volume=`pwd`/neo4j/data:/data \
-		--volume=`pwd`/neo4j/logs:/logs \
+		--rm \
+		--env NEO4J_dbms_memory_heap_maxSize=5120 \
+		--name ncats-monarch-graph-2019-01-25 \
+		-p 8086:7474 \
+		-p 8088:7473 \
+		-p 8087:7687 \
+		-v /work/neo4j/plugins:/plugins \
+		-v /work/neo4j/data:/data \
+		-v /work/neo4j/conf:/var/lib/neo4j/conf \
+		-v /work/neo4j/import:/var/lib/neo4j/import \
 		neo4j:3.0
 
-# run:
-# 	kgx neo4j-upload \
-# 	--use-unwind \
-# 	--scheme bolt \
-# 	--port 8087 \
-# 	-u neo4j \
-# 	-p password \
-# 	--host localhost \
-# 	--node-property source_orphanet True \
-# 	--edge-property source_orphanet True \
-# 	data/orphanet.ttl
-#
-# 	kgx neo4j-upload \
-# 	--use-unwind \
-# 	--scheme bolt \
-# 	--port 8087 \
-# 	-u neo4j \
-# 	-p password \
-# 	--host localhost \
-# 	--node-property source clinvar \
-# 	--edge-property source clinvar \
-# 	data/clinvar.ttl
-#
-# 	kgx neo4j-upload \
-# 	--use-unwind \
-# 	--scheme bolt \
-# 	--port 8087 \
-# 	-u neo4j \
-# 	-p password \
-# 	--host localhost \
-# 	--node-property source hpoa \
-# 	--edge-property source hpoa \
-# 	data/hpoa.ttl
-#
-# 	kgx neo4j-upload \
-# 	--use-unwind \
-# 	--scheme bolt \
-# 	--port 8087 \
-# 	-u neo4j \
-# 	-p password \
-# 	--host localhost \
-# 	--node-property source omim \
-# 	--edge-property source omim \
-# 	data/omim.ttl
+
