@@ -20,13 +20,11 @@ def load_edges(g:nx.Graph):
 
         kwargs = dict(
                 semmedPredicate=row['SEMMED_PRED'],
-                pmids=p,
-                n_pmids=row['n_pmids'],
+                evidence=p,
                 negated=row['negated'],
                 predicate=row[':TYPE'],
                 defined_by=row['is_defined_by'],
-                provided_by=row['provided_by'],
-                relation=row['relation']
+                provided_by=row['provided_by']
         )
 
         g.add_edge(row[':START_ID'], row[':END_ID'], **kwargs)
@@ -47,16 +45,22 @@ def load_nodes(g:nx.Graph):
     df = pd.read_csv('data/semmeddb_nodes.csv')
 
     def process_row(row):
-        xrefs = row['xrefs:STRING[]']
-        xrefs = [xref for xref in xrefs.split(';') if 'NOCODE' not in xref]
+        #xrefs = row['xrefs:STRING[]']
+        #xrefs = [xref for xref in xrefs.split(';') if 'NOCODE' not in xref]
 
+        #def p(xref):
+        #    if ':' in xref:
+        #        _, prefix = xref.rsplit(':', 1)
+        #        return prefix in ['GO', 'DOID', 'OMIM', 'HGNC', 'CHEMBL', 'UNIPROT', 'DRUGBANK']
+        #    return false
+
+        #xrefs = [xref for xref in xrefs if p(xref)]
 
         kwargs = dict(
                 name=row['name:STRING'],
                 type=row['umls_type:STRING[]'],
                 umls_type=row['umls_type_label:STRING[]'],
                 label=row[':LABEL'],
-                same_as=xrefs,
                 category=row['category:STRING'],
                 id=row['id:STRING']
         )

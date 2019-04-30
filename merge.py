@@ -24,7 +24,7 @@ def merge(input, output):
     for path in input:
         fmt = rdflib.util.guess_format(path)
         graph.parse(path, format=fmt)
-        click.echo('[INFO]', path, len(graph))
+        print('[INFO]', path, len(graph))
 
     graph.serialize(destination=output, format='turtle')
 

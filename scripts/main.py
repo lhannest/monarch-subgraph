@@ -5,7 +5,7 @@ nodes.csv files, into a single NetworkX graph, and performs `clique_merge` on it
 Finally, saves the resulting NetworkX graph as `clique_merged.csv`
 """
 
-from kgx import ObanRdfTransformer, JsonTransformer, HgncRdfTransformer
+from kgx import ObanRdfTransformer, JsonTransformer, HgncRdfTransformer, PandasTransformer
 from kgx import clique_merge
 
 t = HgncRdfTransformer()
@@ -53,4 +53,4 @@ t.parse('edges.csv')
 t.parse('nodes.csv')
 
 t.graph = clique_merge(t.graph)
-t.save('clique_merged.csv')
+t.save('/work/main.out')

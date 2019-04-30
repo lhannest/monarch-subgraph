@@ -8,7 +8,11 @@ from collections import Counter
 #o.add_ontology('data/so.owl')
 #o.add_ontology('data/ordo.owl')
 
-from rdflib import URIRef
+#t = JsonTransformer()
+#t.parse('hgnc.json')
+#t.parse('merged.json')
+#t.save('jan10_2019/merged.json')
+#quit()
 
 t = HgncRdfTransformer()
 t.parse('data/hgnc.ttl')

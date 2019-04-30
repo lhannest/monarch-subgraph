@@ -63,8 +63,8 @@ neo4j-start:
 		-p 8087:7687 \
 		-v /work/neo4j/plugins:/plugins \
 		-v /work/neo4j/data:/data \
-		-v /work/neo4j/conf:/var/lib/neo4j/conf \
 		-v /work/neo4j/import:/var/lib/neo4j/import \
+		-v /work/neo4j/conf:/var/lib/neo4j/conf \
 		neo4j:3.0
 
 
